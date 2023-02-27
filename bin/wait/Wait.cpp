@@ -37,7 +37,7 @@ Wait::Result Wait::exec()
 {
     int sec = 0;
     int pid;
-    pid = fork();
+    pid = argc;
     waitpid(pid, &status, 0);
      if (WIFSIGNALED(status)){
         ERROR("Error");
