@@ -36,7 +36,18 @@ Wait::~Wait()
 Wait::Result Wait::exec()
 {
     int sec = 0;
-
+    int pid;
+    pid = fork();
+    waitpid(pid, &status, 0);
+     if (WIFSIGNALED(status)){
+        ERROR("Error");
+    }
+    else if (WEXITSTATUS(status)){
+        printf("Exited Normally\n");
+    }
+    return 0;
+    /*
+    
     // Convert input to seconds
     if ((sec = atoi(arguments().get("SECONDS"))) <= 0)
     {
@@ -53,4 +64,5 @@ Wait::Result Wait::exec()
 
     // Done
     return Success;
+    */
 }
