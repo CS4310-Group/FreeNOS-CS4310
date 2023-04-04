@@ -71,6 +71,8 @@ class Process
         Stopped
     };
 
+    uint8_t priorityLevel;
+
   public:
 
     /**
