@@ -30,6 +30,7 @@ Process::Process(ProcessID id, Address entry, bool privileged, const MemoryMap &
     m_parent        = 0;
     m_waitId        = 0;
     m_waitResult    = 0;
+    m_priority      = Default;
     m_wakeups       = 0;
     m_entry         = entry;
     m_privileged    = privileged;
@@ -78,6 +79,11 @@ uint Process::getWaitResult() const
     return m_waitResult;
 }
 
+Process::Priority Process::getPriority()
+{
+    return m_priority;
+}
+
 Process::State Process::getState() const
 {
     return m_state;
@@ -98,7 +104,7 @@ MemoryContext * Process::getMemoryContext()
     return m_memoryContext;
 }
 
-uint8_t Process::getPriorityLevel()
+uint Process::getPriorityLevel()
 {
     return priorityLevel;
 }
@@ -113,7 +119,7 @@ void Process::setParent(ProcessID id)
     m_parent = id;
 }
 
-void Process::setPriorityLevel(uint8_t level)
+void Process::setPriorityLevel(uint level)
 {
     priorityLevel = level;
 }

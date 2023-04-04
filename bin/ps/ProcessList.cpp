@@ -26,16 +26,21 @@ ProcessList::ProcessList(int argc, char **argv)
     : POSIXApplication(argc, argv)
 {
     parser().setDescription("Output system process list");
+    parser().registerFlag('l', "priority", "use a long listing format to show priority level");
 }
 
 ProcessList::Result ProcessList::exec()
 {
     const ProcessClient process;
     String out;
-
-    // Print header
-    out << "ID  PARENT  USER GROUP STATUS PRIORITY    CMD\r\n";
-
+    
+    if(arguments().get("priority")){
+        // Print header
+        out << "ID  PARENT  USER GROUP STATUS PRIORITY    CMD\r\n";
+    }else{
+        out << "ID  PARENT  USER GROUP STATUS    CMD\r\n";
+    }
+    
     // Loop processes
     for (ProcessID pid = 0; pid < ProcessClient::MaximumProcesses; pid++)
     {
@@ -45,14 +50,23 @@ ProcessList::Result ProcessList::exec()
         if (result == ProcessClient::Success)
         {
             DEBUG("PID " << pid << " state = " << *info.textState);
-
-            // Output a line
-            char line[128];
-            snprintf(line, sizeof(line),
-                    "%3d %7d %4d %5d %10s %2d %32s\r\n",
-                     pid, info.kernelState.parent,
-                     0, 0, *info.textState, info.kernelState.priorityLevel, *info.command);
-            out << line;
+	    if(arguments().get("priority")){
+                // Output a line
+                char line[128];
+                snprintf(line, sizeof(line),
+                        "%3d %7d %4d %5d %10s %8d %32s\r\n",
+                         pid, info.kernelState.parent,
+                         0, 0, *info.textState, info.kernelState.priority, *info.command);
+                out << line;
+            }else{
+                // Output a line
+                char line[128];
+                snprintf(line, sizeof(line),
+                        "%3d %7d %4d %5d %10s %32s\r\n",
+                         pid, info.kernelState.parent,
+                         0, 0, *info.textState, *info.command);
+                out << line;
+            }
         }
     }
 
