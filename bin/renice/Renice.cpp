@@ -1,39 +1,45 @@
-// what the fuck is this
-// #ifndef __BIN_PS_PROCESSLIST_H
-// #define __BIN_PS_PROCESSLIST_H
+#include <Types.h>
+#include <Macros.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <ProcessClient.h>
+#include "Renice.h"
 
-#include <POSIXApplication.h>
-
-/**
- * @addtogroup bin
- * @{
- */
-
-/**
- * Output the system process list.
- */
-class Renice : public POSIXApplication
+Renice::Renice(int argc, char **argv)
+    : POSIXApplication(argc, argv)
 {
-  public:
+    parser().setDescription("Output system process list");
+}
 
-    /**
-     * Constructor
-     *
-     * @param argc Argument count
-     * @param argv Argument values
-     */
-    Renice(int argc, char **argv);
+Renice::Result Renice::exec()
+{
+    const ProcessClient process;
+    String out;
 
-    /**
-     * Execute the application.
-     *
-     * @return Result code
-     */
-    virtual Result exec();
-};
+    // Print header
+    out << "ID  PARENT  USER GROUP STATUS PRIORITY    CMD\r\n";
 
-/**
- * @}
- */
+    // Loop processes
+    for (ProcessID pid = 0; pid < ProcessClient::MaximumProcesses; pid++)
+    {
+        ProcessClient::Info info;
 
-#endif /* __BIN_PS_PROCESSLIST_H */
+        const ProcessClient::Result result = process.processInfo(pid, info);
+        if (result == ProcessClient::Success)
+        {
+            DEBUG("PID " << pid << " state = " << *info.textState);
+
+            // Output a line
+            char line[128];
+            snprintf(line, sizeof(line),
+                    "%3d %7d %4d %5d %10s %2d %32s\r\n",
+                     pid, info.kernelState.parent,
+                     0, 0, *info.textState, info.kernelState.priorityLevel, *info.command);
+            out << line;
+        }
+    }
+
+    // Output the table
+    write(1, *out, out.length());
+    return Success;
+}

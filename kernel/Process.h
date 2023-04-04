@@ -71,7 +71,7 @@ class Process
         Stopped
     };
 
-    uint8_t priorityLevel;
+    
 
   public:
 
@@ -140,6 +140,9 @@ class Process
      *
      * @return Privilege of the Process.
      */
+
+    uint8_t getPriorityLevel();
+
     bool isPrivileged() const;
 
     /**
@@ -243,6 +246,8 @@ class Process
      */
     void setParent(ProcessID id);
 
+    void setPriorityLevel(uint8_t level);
+
   protected:
 
     /** Process Identifier */
@@ -274,6 +279,9 @@ class Process
 
     /** Number of wakeups received */
     Size m_wakeups;
+
+    /** Priority Level of Process */
+    uint8_t priorityLevel;
 
     /**
      * Sleep timer value.
