@@ -98,7 +98,7 @@ MemoryContext * Process::getMemoryContext()
     return m_memoryContext;
 }
 
-uint8_t Process::getPriorityLevel()
+uint Process::getPriorityLevel()
 {
     return priorityLevel;
 }
@@ -113,7 +113,7 @@ void Process::setParent(ProcessID id)
     m_parent = id;
 }
 
-void Process::setPriorityLevel(uint8_t level)
+void Process::setPriorityLevel(uint level)
 {
     priorityLevel = level;
 }
