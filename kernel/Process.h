@@ -141,7 +141,7 @@ class Process
      * @return Privilege of the Process.
      */
 
-    uint8_t getPriorityLevel();
+    uint getPriorityLevel();
 
     bool isPrivileged() const;
 
@@ -246,7 +246,7 @@ class Process
      */
     void setParent(ProcessID id);
 
-    void setPriorityLevel(uint8_t level);
+    void setPriorityLevel(uint level);
 
   protected:
 
@@ -281,7 +281,7 @@ class Process
     Size m_wakeups;
 
     /** Priority Level of Process */
-    uint8_t priorityLevel;
+    uint priorityLevel;
 
     /**
      * Sleep timer value.
