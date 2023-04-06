@@ -152,6 +152,15 @@ typedef struct DeviceID
 }
 DeviceID;
 
+typedef enum Priority 
+{
+    PRIORITY_1 = 1;
+    PRIORITY_2 = 2;
+    DEFAULT = 3;
+    PRIORITY_4 = 4;
+    PRIORITY_5 = 5;
+} 
+Priority;
 /**
  * Error code defined in Error.h
  * @see Error.h
@@ -172,6 +181,8 @@ namespace Number
     }
     Base;
 };
+
+
 
 #endif /* __cplusplus */
 

@@ -22,6 +22,7 @@
 #include <SplitAllocator.h>
 #include "Process.h"
 #include "ProcessEvent.h"
+#include <Types.h>
 
 Process::Process(ProcessID id, Address entry, bool privileged, const MemoryMap &map)
     : m_id(id), m_map(map), m_shares(id)
@@ -98,7 +99,7 @@ MemoryContext * Process::getMemoryContext()
     return m_memoryContext;
 }
 
-uint Process::getPriorityLevel()
+Priority Process::getPriorityLevel()
 {
     return priorityLevel;
 }
@@ -115,7 +116,14 @@ void Process::setParent(ProcessID id)
 
 void Process::setPriorityLevel(uint level)
 {
-    priorityLevel = level;
+    if (level < 1 || level > 5) 
+    {
+        priorityLevel = 3;
+    }
+    else 
+    {
+        priorityLevel = (Priority)level;
+    }
 }
 
 Process::Result Process::wait(ProcessID id)
