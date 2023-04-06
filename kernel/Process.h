@@ -71,6 +71,9 @@ class Process
         Stopped
     };
     
+    /**
+     * Represents the priority level of the Process.
+     */
     enum Priority
     {
         Min = 1,
@@ -123,6 +126,12 @@ class Process
      * Get priority level
      */
     Priority getPriority();
+    
+    /**
+     * Set priority level
+     *
+     */
+    Result setPriority(int priority);
 
     /**
      * Get process shares.
@@ -150,9 +159,9 @@ class Process
      *
      * @return Privilege of the Process.
      */
-
-    uint getPriorityLevel();
-
+     
+    uint getPriorityLevel(); 
+     
     bool isPrivileged() const;
 
     /**

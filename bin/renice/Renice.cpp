@@ -4,42 +4,46 @@
 #include <unistd.h>
 #include <ProcessClient.h>
 #include "Renice.h"
+#include "sys/renice.h"
+#include <errno.h>
+#include <stdlib.h>
+#include <string.h>
 
 Renice::Renice(int argc, char **argv)
     : POSIXApplication(argc, argv)
 {
-    parser().setDescription("Output system process list");
+    parser().setDescription("Change scheduling priority of running processes, whether that be of one or more");
+    parser().registerFlag('n', "priority", "change priority level of specific process");
+    parser().registerPositional("PRIORITY", "change priority to this new specific level");
+    parser().registerPositional("PROCESS_ID", "change priority of this specific process");
 }
 
 Renice::Result Renice::exec()
 {
-    const ProcessClient process;
-    String out;
-
-    // Print header
-    out << "ID  PARENT  USER GROUP STATUS PRIORITY    CMD\r\n";
-
-    // Loop processes
-    for (ProcessID pid = 0; pid < ProcessClient::MaximumProcesses; pid++)
+    if(arguments().get("priority"))
     {
+        const ProcessClient process;
+        ProcessID pid = (atoi(arguments().get("PROCESS_ID")));
+        int priority = (atoi(arguments().get("PRIORITY")));
+        
         ProcessClient::Info info;
-
         const ProcessClient::Result result = process.processInfo(pid, info);
-        if (result == ProcessClient::Success)
+        
+        if(result != ProcessClient::Success)
         {
-            DEBUG("PID " << pid << " state = " << *info.textState);
-
-            // Output a line
-            char line[128];
-            snprintf(line, sizeof(line),
-                    "%3d %7d %4d %5d %10s %2d %32s\r\n",
-                     pid, info.kernelState.parent,
-                     0, 0, *info.textState, info.kernelState.priorityLevel, *info.command);
-            out << line;
+            ERROR("No process of ID '" << pid << "' is found, enter valid pid from system process list")
+            return InvalidArgument;
         }
+        
+        if(priority > 5 || priority < 1)
+        {
+            ERROR("Unable to set priority level (selected level not in range 1-5) " << pid)
+            return InvalidArgument;
+        }
+        
+        renicepid(pid, priority, 0, 0);
+        printf("Successfully set priority of process %d to priority level %d, from priority level %d\n", pid, priority, info.kernelState.priority);
     }
 
-    // Output the table
-    write(1, *out, out.length());
     return Success;
 }

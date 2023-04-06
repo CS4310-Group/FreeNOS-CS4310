@@ -9,7 +9,7 @@
  */
 
 /**
- * Output the system process list.
+ * Change scheduling priority of running processes, whether that be of one or more.
  */
 class Renice : public POSIXApplication
 {

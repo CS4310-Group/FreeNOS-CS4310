@@ -257,7 +257,7 @@
 #define VERSION_SUFFIX ""
 #define VERSION "1.0.3"
 #define VERSIONCODE 65539
-#define RELEASE "1.0.3-git(2cbf026)*"
+#define RELEASE "1.0.3-git(3e595c6)*"
 #define FREENOS 1
 #define COMPILER_VERSION "gcc (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0"
 #define BUILDUSER "bryson"
@@ -266,8 +266,8 @@
 #define BUILDARCH "x86_64"
 #define BUILDPY "Python 3.8.10"
 #define BUILDER "SCons 3.1.2"
-#define BUILDURL "/home/bryson/FreeNOS-CS4310"
-#define BUILDPATH "/home/bryson/FreeNOS-CS4310"
-#define TESTROOT "/home/bryson/FreeNOS-CS4310/build/host"
+#define BUILDURL "/home/bryson/FreeNOS-CS4310-X"
+#define BUILDPATH "/home/bryson/FreeNOS-CS4310-X"
+#define TESTROOT "/home/bryson/FreeNOS-CS4310-X/build/host"
 #endif
 

@@ -47,6 +47,7 @@ typedef enum ProcessOperation
     SendIRQ,
     InfoPID,
     WaitPID,
+    RenicePID,
     InfoTimer,
     WaitTimer,
     EnterSleep,
@@ -72,7 +73,7 @@ typedef struct ProcessInfo
     /** Defines the current state of the Process. */
     Process::State state;
 
-    /** Priority Level. */
+    /** Defines the current priority level of the Process. */
     Process::Priority priority;
     
 }
