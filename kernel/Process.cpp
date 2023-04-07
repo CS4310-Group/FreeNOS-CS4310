@@ -86,9 +86,9 @@ Process::Priority Process::getPriority()
 
 Process::Result Process::setPriority(int priority)
 {
-    if(priority > 5 || priority < 1)
+    if(priority < 1 || priority > 5)
     {
-        ERROR("Invalid priority level: " << priority);
+        ERROR("This is NOT a valid priority level: " << priority);
         return InvalidArgument;
     }
     
