@@ -30,7 +30,6 @@ Process::Process(ProcessID id, Address entry, bool privileged, const MemoryMap &
     m_parent        = 0;
     m_waitId        = 0;
     m_waitResult    = 0;
-    m_priority      = Default;
     m_wakeups       = 0;
     m_entry         = entry;
     m_privileged    = privileged;
@@ -81,7 +80,7 @@ uint Process::getWaitResult() const
 
 Process::Priority Process::getPriority()
 {
-    return m_priority;
+    return priorityLevel;
 }
 
 Process::Result Process::setPriority(int priority)
@@ -92,7 +91,7 @@ Process::Result Process::setPriority(int priority)
         return InvalidArgument;
     }
     
-    m_priority = (Priority) priority;
+    priorityLevel = (Priority) priority;
     return Success;
 }
 
