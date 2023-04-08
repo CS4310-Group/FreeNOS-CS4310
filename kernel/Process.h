@@ -77,7 +77,9 @@ class Process
     enum Priority
     {
         Min = 1,
+        Lvl2 = 2,
         Default = 3,
+        Lvl4 = 4,
         Max = 5
     };
 
@@ -303,7 +305,7 @@ class Process
     Size m_wakeups;
 
     /** Priority Level of Process */
-    uint priorityLevel;
+    //uint priorityLevel;
 
     /**
      * Sleep timer value.

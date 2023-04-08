@@ -207,22 +207,22 @@ ProcessManager::Result ProcessManager::changePriority(Process *proc, int priorit
     
         if(m_scheduler->dequeue(proc, true) != Scheduler::Success)
         {
-            FATAL("failed to dequeue PID " << proc->getID());
+            FATAL("not able to dequeue PID " << proc->getID());
         }
         
         if(proc->setPriority(priority) != Process::Success)
         {
-            FATAL("failed to set priority of PID " << proc->getID());
+            FATAL("not able to set priority of PID " << proc->getID());
         }
         
         if(m_scheduler->enqueue(proc, false) != Scheduler::Success)
         {
-            FATAL("failed to enqueue PID " << proc->getID());
+            FATAL("not able to enqueue PID " << proc->getID());
         }
     }else{
         if(proc->setPriority(priority) != Process::Success)
         {
-            FATAL("failed to set priority of PID " << proc->getID());
+            FATAL("not able to set priority of PID " << proc->getID());
         }
     }
     

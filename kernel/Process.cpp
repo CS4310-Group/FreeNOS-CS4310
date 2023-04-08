@@ -30,12 +30,13 @@ Process::Process(ProcessID id, Address entry, bool privileged, const MemoryMap &
     m_parent        = 0;
     m_waitId        = 0;
     m_waitResult    = 0;
+    m_priority      = Default;
     m_wakeups       = 0;
     m_entry         = entry;
     m_privileged    = privileged;
     m_memoryContext = ZERO;
     m_kernelChannel = ZERO;
-    priorityLevel   = 3;
+    //priorityLevel   = 3;
     MemoryBlock::set(&m_sleepTimer, 0, sizeof(m_sleepTimer));
 }
 
@@ -80,7 +81,7 @@ uint Process::getWaitResult() const
 
 Process::Priority Process::getPriority()
 {
-    return priorityLevel;
+    return m_priority;
 }
 
 Process::Result Process::setPriority(int priority)
@@ -91,7 +92,7 @@ Process::Result Process::setPriority(int priority)
         return InvalidArgument;
     }
     
-    priorityLevel = (Priority) priority;
+    m_priority = (Priority) priority;
     return Success;
 }
 
@@ -115,10 +116,10 @@ MemoryContext * Process::getMemoryContext()
     return m_memoryContext;
 }
 
-uint Process::getPriorityLevel()
-{
-    return priorityLevel;
-}
+//uint Process::getPriorityLevel()
+//{
+    //return priorityLevel;
+//}
 
 bool Process::isPrivileged() const
 {
@@ -130,10 +131,10 @@ void Process::setParent(ProcessID id)
     m_parent = id;
 }
 
-void Process::setPriorityLevel(uint level)
-{
-    priorityLevel = level;
-}
+//void Process::setPriorityLevel(uint level)
+//{
+    //priorityLevel = level;
+//}
 
 Process::Result Process::wait(ProcessID id)
 {

@@ -31,7 +31,7 @@ Renice::Result Renice::exec()
         
         if(result != ProcessClient::Success)
         {
-            ERROR("No process of ID '" << pid << "' is found, enter valid pid from system process list")
+            ERROR("No process with PID '" << pid << "' found, enter valid pid from system process list")
             return InvalidArgument;
         }
         
